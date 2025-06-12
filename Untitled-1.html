@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>اجرای تابع</title>
+</head>
 <body>
-<button onclick="runFunction()">اجرای تابع</button>
+    <button onclick="runFunction()">اجرای تابع</button>
 
-<script>
-async function runFunction() {
-  // 1. صدا زدن تابع Appwrite
-  const response = await fetch('https://cloud.appwrite.io/v1/functions/684ab1d3001351ab0c57/executions', {
-    method: 'POST',
-    headers: {
-      'X-Appwrite-Project': '684aa730001b61289cc3',
-      'Content-Type': 'application/json'
-    }
-  });
+    <script>
+        async function runFunction() {
+            try {
+                // فراخوانی تابع Appwrite
+                const response = await fetch('https://cloud.appwrite.io/v1/functions/684ab1d3001351ab0c57/executions', {
+                    method: 'POST',
+                    headers: {
+                        'X-Appwrite-Project': '684aa730001b61289cc3',
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-  // 2. اگر موفق بود کاربر رو به گوگل ببر
-  if (response.ok) {
-    window.open('https://google.com', '_blank');
-  }
-}
-</script>
+                // بررسی پاسخ
+                if (response.status === 302) {
+                    // باز کردن گوگل در تب جدید
+                    window.open('https://www.google.com', '_blank');
+                    alert('تابع با موفقیت اجرا شد!');
+                } else {
+                    const data = await response.json();
+                    alert('خطا: ' + (data.error || response.status));
+                }
+            } catch (error) {
+                alert('خطای شبکه: ' + error.message);
+            }
+        }
+    </script>
 </body>
 </html>
