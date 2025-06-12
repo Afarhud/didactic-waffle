@@ -20,28 +20,25 @@ module.exports = async ({ req, res, log, error }) => {
       }
     );
 
-    // اضافه کردن هدرهای CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Appwrite-Project');
-
-    // Return success response
+    // Return success response with CORS headers
     return res.json({
       success: true,
-      message: "تابع با موفقیت اجرا شد",
       redirectUrl: 'https://anten.ir'
+    }, 200, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST'
     });
 
   } catch (err) {
     // Log error properly
     error(`Error: ${err.message}`);
     
-    // اضافه کردن هدرهای CORS برای خطا هم
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    
+    // Return error response with CORS headers
     return res.json({
       success: false,
       error: err.message
-    }, 500);
+    }, 500, {
+      'Access-Control-Allow-Origin': '*'
+    });
   }
 };
