@@ -20,18 +20,17 @@ module.exports = async ({ req, res, log, error }) => {
       }
     );
 
-    // Return redirect response
-    return res.redirect('https://anten.ir');
+    // Return success response with redirect URL
+    return res.json({
+      success: true,
+      redirectUrl: 'https://anten.ir' // تغییر این آدرس
+    });
 
   } catch (err) {
-    // Log error properly
     error(`Error: ${err.message}`);
-    error(`Stack: ${err.stack}`);
-    
-    // Return error response
     return res.json({
       success: false,
       error: err.message
-    }, 500);
+    });
   }
 };
