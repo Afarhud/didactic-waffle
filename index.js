@@ -21,7 +21,7 @@ module.exports = async ({ req, res, log, error }) => {
     );
 
     // Return redirect response
-    return res.redirect('https://soft98.ir');
+    return res.redirect('https://anten.ir');
 
   } catch (err) {
     // Log error properly
