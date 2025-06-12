@@ -1,14 +1,14 @@
 const { Client, Databases } = require('node-appwrite');
 
-module.exports = async (req, res) => {
+module.exports = async ({ req, res, log, error }) => {
   try {
-    // 1. Initialize Appwrite Client
+    // Initialize Appwrite Client
     const client = new Client()
       .setEndpoint('https://cloud.appwrite.io/v1')
       .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
       .setKey(process.env.APPWRITE_API_KEY);
 
-    // 2. Save execution time to DB
+    // Save execution time to DB
     const databases = new Databases(client);
     await databases.createDocument(
       '684aab9a0030ea5ac942',
@@ -20,16 +20,18 @@ module.exports = async (req, res) => {
       }
     );
 
-    // 3. Redirect to Google
-    return res.redirect('https://www.google.com', 302);
+    // Return redirect response
+    return res.redirect('https://www.google.com');
 
-  } catch (error) {
-    console.error('Error:', error);
+  } catch (err) {
+    // Log error properly
+    error(`Error: ${err.message}`);
+    error(`Stack: ${err.stack}`);
     
-    // روش صحیح بازگرداندن خطا
-    return res.status(500).json({
+    // Return error response
+    return res.json({
       success: false,
-      error: error.message || 'Unknown error'
-    });
+      error: err.message
+    }, 500);
   }
 };
