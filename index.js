@@ -11,21 +11,25 @@ module.exports = async (req, res) => {
     // 2. Save execution time to DB
     const databases = new Databases(client);
     await databases.createDocument(
-      '684aab9a0030ea5ac942',      // جایگزینی با ID دیتابیس
-      '684aabb50023d485ae3a',    // جایگزینی با ID کالکشن
-      'unique()',           // Auto-generated Document ID
+      '684aab9a0030ea5ac942',
+      '684aabb50023d485ae3a',
+      'unique()',
       {
         executionTime: new Date().toISOString(),
         status: "executed"
       }
     );
 
-    // 3. Redirect to Google (کاربر را به گوگل هدایت می‌کند)
-    res.setHeader('Location', 'https://www.google.com');
-    return res.send('', 302);
+    // 3. Redirect to Google
+    return res.redirect('https://www.google.com', 302);
 
   } catch (error) {
     console.error('Error:', error);
-    return res.json({ error: error.message }, 500);
+    
+    // روش صحیح بازگرداندن خطا
+    return res.status(500).json({
+      success: false,
+      error: error.message || 'Unknown error'
+    });
   }
 };
