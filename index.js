@@ -21,7 +21,7 @@ module.exports = async ({ req, res, log, error }) => {
     // Simple response
     return res.json({
       success: true,
-      redirectUrl: 'https://anten.ir'
+      redirectUrl: 'https://yahoo.com'
     });
 
   } catch (err) {
