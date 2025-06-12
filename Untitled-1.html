@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="runFunction()">اجرای تابع</button>
+
+<script>
+async function runFunction() {
+  // 1. صدا زدن تابع Appwrite
+  const response = await fetch('https://cloud.appwrite.io/v1/functions/684ab1d3001351ab0c57/executions', {
+    method: 'POST',
+    headers: {
+      'X-Appwrite-Project': '684aa730001b61289cc3',
+      'Content-Type': 'application/json'
+    }
+  });
+
+  // 2. اگر موفق بود کاربر رو به گوگل ببر
+  if (response.ok) {
+    window.open('https://google.com', '_blank');
+  }
+}
+</script>
+</body>
+</html>
